@@ -51,7 +51,7 @@ function obtenerCategorias() {
 //--//
 function establecerCategorias(categorias) {
     categorias.forEach(categoria => {
-        const {strCategory} = categoria;
+        const { strCategory } = categoria;
 
         const option = document.createElement('option');
         option.textContent = strCategory;
@@ -83,7 +83,7 @@ function establecerRecetas(recetas) {
     resultadoRecetas.appendChild(heading);
 
     recetas.forEach(receta => {
-        const {idMeal, strMeal, strMealThumb} = receta;
+        const { idMeal, strMeal, strMealThumb } = receta;
 
         const recestaContenedor = document.createElement('div');
         recestaContenedor.classList.add('col-md-4', 'mb-3'); //Bootstrap clases
@@ -93,8 +93,9 @@ function establecerRecetas(recetas) {
 
         const recetaImg = document.createElement('img');
         recetaImg.classList.add('card-img-top');
-        recetaImg.id = idMeal ?? receta.id;
-        recetaImg.alt = `Imagen ${strMeal ?? receta.titulo}`; //--*Favoritos
+        //JavaScript permite utilizar el simbolo (??) para realizar asignaciones en caso de resultados NUll.
+        recetaImg.id = idMeal ?? receta.id; //--*Favoritos
+        recetaImg.alt = `Imagen ${strMeal ?? receta.titulo}`; 
         recetaImg.src = strMealThumb ?? receta.img;
 
         const recetaBody = document.createElement('div');
@@ -107,8 +108,6 @@ function establecerRecetas(recetas) {
         const recetaBtn = document.createElement('button');
         recetaBtn.classList.add('btn', 'btn-danger', 'w-100');
         recetaBtn.textContent = 'Ver Receta';
-        //recetaBtn.dataset.bsTarget = "#modal"; //Conexión con el modal de Bootstrap
-        //recetaBtn.dataset.bsToggle = "modal"; //Conexión con las funciones modal del archivo BSJS
         recetaBtn.onclick = () => seleccionReceta(idMeal ?? receta.id);
 
         recetaBody.appendChild(recetaHeading);
@@ -141,7 +140,7 @@ function establecerInformacion(receta) {
     const modalFooter = document.querySelector('.modal .modal-footer');
 
     const {idMeal, strMeal, strInstructions, strMealThumb, strYoutube} = receta;
-    limpiarHTML(modalFooter);
+    limpiarHTML(modalFooter); //////////////////
 
     modalTitle.textContent = strMeal;
     modalBody.innerHTML = `
@@ -173,7 +172,7 @@ function establecerInformacion(receta) {
     const btnFavorito = document.createElement('button');
     btnFavorito.classList.add('cambio-text', 'btn', 'btn-danger', 'col');
     btnFavorito.textContent = validacionLS(idMeal) ? "Eliminar Favorito" : "Guardar favorito";
-    btnFavorito.onclick = () => agregarFavorito({id: idMeal, titulo: strMeal, img: strMealThumb});
+    btnFavorito.onclick = () => agregarFavorito( {id: idMeal, titulo: strMeal, img: strMealThumb} );
 
     const btnCerrar = document.createElement('button');
     btnCerrar.classList.add('btn', 'btn-secondary', 'col');
@@ -200,8 +199,7 @@ function agregarFavorito(recetaGuardada) {
     }
 
     const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
-    //JavaScript permite utilizar el simbolo (??) para realizar asignaciones en caso de resultados NUll.
-    localStorage.setItem('favoritos', JSON.stringify([...favoritos, recetaGuardada]));
+    localStorage.setItem('favoritos', JSON.stringify( [...favoritos, recetaGuardada] ));
 
     document.querySelector('.cambio-text').textContent = "Eliminar Favorito";
 
@@ -213,7 +211,7 @@ function eliminarFavorito(id) {
     const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
 
     const resultado = favoritos.filter(favorito => favorito.id !== id);
-    localStorage.setItem('favoritos', JSON.stringify([...resultado]));
+    localStorage.setItem('favoritos', JSON.stringify( [...resultado] ));
 
     if(selectFavoritos) {
         const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
